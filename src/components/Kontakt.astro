@@ -1,0 +1,234 @@
+---
+import { site } from "../data/site";
+---
+
+<section class="section" id="kontakt">
+  <div class="shell kontakt">
+    <div class="kontakt__intro">
+      <p class="eyebrow">Kontakt</p>
+      <h2 class="headline">Erzählen Sie uns,<br />was hakt.</h2>
+      <p class="lede prose-note kontakt__lede">
+        Erstgespräch dauert 30 Minuten und kostet nichts. Wenn wir nicht die
+        Richtigen sind, sagen wir das im Gespräch.
+      </p>
+      <dl class="kontakt__direkt">
+        <div>
+          <dt>E-Mail</dt>
+          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        <div>
+          <dt>Telefon</dt>
+          <dd><a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a></dd>
+        </div>
+        <div>
+          <dt>Wo</dt>
+          <dd>{site.city}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <form class="form" data-form method="post" action="/api/kontakt">
+      <div class="field">
+        <label for="name">Ihr Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="email">E-Mail</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+      </div>
+      <div class="field">
+        <label for="nachricht">Worum geht es?</label>
+        <textarea id="nachricht" name="nachricht" rows="4" required></textarea>
+      </div>
+      <div class="form__foot">
+        <button type="submit">Anfrage senden</button>
+        <p class="form__hinweis">
+          Ihre Angaben nutzen wir nur für die Antwort auf diese Anfrage.
+          <a href="/datenschutz">Datenschutz</a>
+        </p>
+      </div>
+      <p class="form__status" data-status role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .kontakt {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  @media (min-width: 60rem) {
+    .kontakt {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+  }
+
+  .kontakt__intro .headline {
+    margin-top: 0.75rem;
+  }
+
+  .kontakt__lede {
+    margin-top: 1.25rem;
+  }
+
+  .kontakt__direkt {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .kontakt__direkt > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--color-panel);
+  }
+
+  .kontakt__direkt dt {
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .kontakt__direkt dd {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  .kontakt__direkt a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-accent);
+  }
+
+  .field {
+    display: grid;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .field label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .field input,
+  .field textarea {
+    font: inherit;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-family: var(--font-serif);
+    color: var(--color-ink);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--color-ink);
+    padding: 0.35rem 0;
+    border-radius: 0;
+    resize: vertical;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: 0;
+    border-bottom-color: var(--color-accent);
+    border-bottom-width: 2px;
+    padding-bottom: calc(0.35rem - 1px);
+  }
+
+  .form__foot {
+    display: grid;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  @media (min-width: 40rem) {
+    .form__foot {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .form__foot button {
+    font: inherit;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border: 0;
+    padding: 0.85rem 1.75rem;
+    cursor: pointer;
+    justify-self: start;
+    transition: background 0.18s ease;
+  }
+
+  .form__foot button:hover {
+    background: var(--color-accent);
+  }
+
+  .form__hinweis {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .form__status {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .form__status[data-state="ok"] {
+    color: var(--color-ink);
+  }
+
+  .form__status[data-state="error"] {
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  // Der Endpunkt ist bewusst austauschbar.
+  // Fuer Cloudflare Pages: eine Function unter functions/api/kontakt.ts anlegen,
+  // die den Body entgegennimmt und ueber Resend verschickt:
+  //
+  //   await fetch("https://api.resend.com/emails", {
+  //     method: "POST",
+  //     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+  //     body: JSON.stringify({ from: "website@twinware.de", to: "hallo@twinware.de", subject: ..., text: ... }),
+  //   });
+  const setup = () => {
+    const form = document.querySelector<HTMLFormElement>("[data-form]");
+    const status = document.querySelector<HTMLParagraphElement>("[data-status]");
+    if (!form || !status) return;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = form.querySelector("button");
+      button?.setAttribute("disabled", "true");
+      status.dataset.state = "";
+      status.textContent = "Wird gesendet …";
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        form.reset();
+        status.dataset.state = "ok";
+        status.textContent = "Angekommen. Wir melden uns innerhalb eines Werktags.";
+      } catch {
+        status.dataset.state = "error";
+        status.textContent =
+          "Das Formular konnte nicht senden. Schreiben Sie uns bitte direkt an hallo@twinware.de.";
+      } finally {
+        button?.removeAttribute("disabled");
+      }
+    });
+  };
+
+  setup();
+  document.addEventListener("astro:page-load", setup);
+</script>

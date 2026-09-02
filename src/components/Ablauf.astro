@@ -1,0 +1,108 @@
+---
+import { ablauf } from "../data/site";
+---
+
+<section class="section section--tight" id="ablauf">
+  <div class="shell">
+    <div class="section-head">
+      <p class="eyebrow">Ablauf</p>
+      <div>
+        <h2 class="headline">Vom ersten Anruf bis zum laufenden Betrieb.</h2>
+      </div>
+    </div>
+
+    <ol class="steps">
+      {
+        ablauf.map((s, i) => (
+          <li class="step">
+            <span class="step__no display">{String(i + 1)}</span>
+            <div class="step__text">
+              <h3 class="headline headline--sm">{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+            <span class="step__meta">{s.meta}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 56rem) {
+    .steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+    }
+  }
+
+  .step {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding: clamp(1.75rem, 3vw, 2.25rem) clamp(1.5rem, 2.5vw, 2rem);
+    background: var(--color-panel);
+  }
+
+  .step:nth-child(1) {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .step:nth-child(3) {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .step__no {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--color-accent);
+    line-height: 0.8;
+  }
+
+  .step:nth-child(1) .step__no {
+    color: rgba(250, 249, 247, 0.55);
+  }
+
+  .step:nth-child(3) .step__no {
+    color: rgba(17, 17, 17, 0.4);
+  }
+
+  .step__text {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .step__text p {
+    color: var(--color-muted);
+    max-width: 24rem;
+  }
+
+  .step:nth-child(1) .step__text p {
+    color: #b8b2ab;
+  }
+
+  .step:nth-child(3) .step__text p {
+    color: rgba(17, 17, 17, 0.7);
+  }
+
+  .step__meta {
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .step:nth-child(1) .step__meta {
+    color: rgba(250, 249, 247, 0.55);
+  }
+
+  .step:nth-child(3) .step__meta {
+    color: rgba(17, 17, 17, 0.55);
+  }
+</style>

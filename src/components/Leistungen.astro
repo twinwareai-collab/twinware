@@ -1,0 +1,173 @@
+---
+import { leistungen } from "../data/site";
+---
+
+<section class="section" id="leistungen">
+  <div class="shell">
+    <div class="section-head">
+      <p class="eyebrow">Leistungen</p>
+      <div>
+        <h2 class="headline">
+          Sechs Sachen stehen<br class="br" /> zur Auswahl.
+        </h2>
+        <p class="lede prose-note grid-note">
+          Nicht alles davon brauchen Sie. Wahrscheinlich zwei davon.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      {
+        leistungen.map((l, i) => (
+          <article class:list={["cell", `cell--${l.size}`]}>
+            <div class="cell__head">
+              <span class="cell__num">{String(i + 1).padStart(2, "0")}</span>
+              <p class="cell__tag">{l.tag}</p>
+            </div>
+            <h3 class="headline headline--sm cell__title">{l.title}</h3>
+            <p class="cell__text">{l.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .br {
+    display: none;
+  }
+
+  @media (min-width: 40rem) {
+    .br {
+      display: inline;
+    }
+  }
+
+  .grid-note {
+    margin-top: 1rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 48rem) {
+    .grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  .cell {
+    padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.25rem);
+    display: grid;
+    align-content: start;
+    gap: 0.65rem;
+    background: var(--color-panel);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+  }
+
+  @media (hover: hover) {
+    .cell:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 1.25rem 2.5rem rgba(17, 17, 17, 0.14);
+      z-index: 1;
+    }
+
+    .cell:hover .cell__tag {
+      transform: rotate(0deg);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .cell {
+      grid-column: span 2;
+    }
+
+    .cell--wide {
+      grid-column: span 4;
+    }
+
+    .cell--tall {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+
+  /* Reihenfolge aus data/site.ts: breit | normal / hoch | normal | normal / [hoch] | breit */
+  .cell:nth-child(1),
+  .cell:nth-child(5) {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .cell:nth-child(3) {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .cell__head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .cell__num {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--color-rule);
+  }
+
+  .cell:nth-child(1) .cell__num,
+  .cell:nth-child(5) .cell__num {
+    color: rgba(250, 249, 247, 0.3);
+  }
+
+  .cell:nth-child(3) .cell__num {
+    color: rgba(17, 17, 17, 0.3);
+  }
+
+  .cell__tag {
+    display: inline-block;
+    background: var(--color-accent);
+    color: var(--color-paper);
+    padding: 0.28em 0.75em;
+    border-radius: 999px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+    transition: transform 0.2s ease;
+  }
+
+  .cell:nth-child(3) .cell__tag {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .cell--wide .cell__title {
+    font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  }
+
+  .cell__text {
+    color: var(--color-muted);
+    max-width: 32rem;
+    font-size: 0.9375rem;
+  }
+
+  .cell:nth-child(1) .cell__text,
+  .cell:nth-child(5) .cell__text {
+    color: #b8b2ab;
+  }
+
+  .cell:nth-child(3) .cell__text {
+    color: rgba(17, 17, 17, 0.7);
+  }
+
+  .cell--wide .cell__text {
+    font-size: 1.0625rem;
+  }
+</style>

@@ -1,0 +1,164 @@
+---
+import { site } from "../data/site";
+
+const meta = [
+  { k: "Standort", v: site.city },
+  { k: "Sparte 1", v: "Web & Anwendungen" },
+  { k: "Sparte 2", v: "Wartung & Betrieb" },
+  { k: "Seit", v: site.founded },
+];
+---
+
+<section class="hero">
+  <div class="hero__inner shell">
+    <p class="hero__kicker">Software-Werkstatt für den Mittelstand</p>
+
+    <h1 class="hero__title display" aria-label={site.name}>
+      <span aria-hidden="true">
+        {
+          [..."TWINWARE"].map((c, i) => (
+            <span class="ch" style={`--i:${i}`}>
+              {c}
+            </span>
+          ))
+        }
+      </span>
+    </h1>
+
+    <div class="hero__foot">
+      <p class="hero__sub">
+        Websites und Webapps aus {site.city}. Wir bauen die Dinge,
+        die Ihr Betrieb jeden Tag benutzt – und danach lassen wir Sie damit nicht
+        allein.
+      </p>
+      <a class="textlink hero__link" href="#leistungen">Was wir machen</a>
+    </div>
+  </div>
+
+  <dl class="masthead-meta shell">
+    {
+      meta.map((m) => (
+        <div class="masthead-meta__cell">
+          <dt>{m.k}</dt>
+          <dd>{m.v}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>
+
+<style>
+  .hero {
+    background: var(--color-night);
+    color: var(--color-paper);
+    padding-top: clamp(3rem, 8vw, 6rem);
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+  }
+
+  .hero__kicker {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .hero__title {
+    font-size: clamp(3.5rem, 15.2vw, 15rem);
+    margin: 0;
+  }
+
+  .hero__title > span {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .ch {
+    display: inline-block;
+    animation: rise 0.9s cubic-bezier(0.16, 0.84, 0.28, 1) backwards;
+    animation-delay: calc(var(--i) * 55ms + 120ms);
+  }
+
+  .ch:nth-child(5) {
+    color: var(--color-accent);
+  }
+
+  @keyframes rise {
+    from {
+      transform: translateY(0.42em);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .hero__foot {
+    display: grid;
+    gap: 1.5rem;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .hero__sub {
+    max-width: 38rem;
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    line-height: 1.55;
+    color: #cfc9c2;
+  }
+
+  @media (min-width: 60rem) {
+    .hero__foot {
+      grid-template-columns: minmax(0, 38rem) auto;
+      align-items: end;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+    .hero__link {
+      margin-bottom: 0.35rem;
+    }
+  }
+
+  .masthead-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--color-rule-dark);
+  }
+
+  .masthead-meta__cell {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--color-rule-dark);
+  }
+
+  .masthead-meta dt {
+    font-size: 0.625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a847d;
+  }
+
+  .masthead-meta dd {
+    margin: 0.2rem 0 0;
+    font-size: 0.8125rem;
+  }
+
+  @media (min-width: 48rem) {
+    .masthead-meta {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-bottom: 0;
+    }
+    .masthead-meta__cell {
+      border-bottom: 0;
+    }
+    .masthead-meta__cell + .masthead-meta__cell {
+      padding-left: 1.25rem;
+      border-left: 1px solid var(--color-rule-dark);
+    }
+  }
+</style>
