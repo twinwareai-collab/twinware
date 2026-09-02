@@ -11,7 +11,7 @@ const meta = [
 
 <section class="hero">
   <div class="hero__inner shell">
-    <p class="hero__kicker">Software-Werkstatt für den Mittelstand</p>
+    <p class="hero__kicker">Softwarefirma mit Konzern-Erfahrung im Rücken</p>
 
     <h1 class="hero__title display" aria-label={site.name}>
       <span aria-hidden="true">
@@ -49,7 +49,10 @@ const meta = [
 
 <style>
   .hero {
-    background: var(--color-night);
+    background:
+      radial-gradient(120% 85% at 88% 115%, rgba(255, 75, 46, 0.38), transparent 60%),
+      radial-gradient(70% 55% at 8% -15%, rgba(255, 75, 46, 0.16), transparent 60%),
+      var(--color-night);
     color: var(--color-paper);
     padding-top: clamp(3rem, 8vw, 6rem);
     overflow: hidden;
