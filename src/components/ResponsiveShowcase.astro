@@ -19,7 +19,7 @@ const punkte = [
 
 <section class="section section--night showcase" id="responsive">
   <div class="shell">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <p class="eyebrow">Ein Entwurf, drei Größen</p>
       <div>
         <h2 class="headline">Dieselbe Seite auf jedem Gerät.</h2>
@@ -85,8 +85,8 @@ const punkte = [
   <div class="shell">
     <ul class="punkte">
       {
-        punkte.map((p) => (
-          <li>
+        punkte.map((p, i) => (
+          <li data-reveal style={`--reveal-delay: ${i * 90}ms`}>
             <h3>{p.title}</h3>
             <p>{p.text}</p>
           </li>

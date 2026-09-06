@@ -16,8 +16,6 @@ import { nav, site } from "../data/site";
       </ul>
     </nav>
 
-    <a class="wordmark display" href="/">Twinware</a>
-
     <div class="nav nav--right">
       <a class="contact" href="/#kontakt">Projekt anfragen</a>
     </div>
@@ -70,12 +68,34 @@ import { nav, site } from "../data/site";
     background: color-mix(in srgb, var(--color-paper) 92%, transparent);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--color-rule);
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .masthead--overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    border-bottom-color: transparent;
+    color: var(--color-paper);
+    backdrop-filter: none;
+  }
+
+  .masthead--overlay.masthead--solid {
+    background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom-color: var(--color-rule);
+    color: inherit;
   }
 
   .bar {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     min-height: 3.5rem;
     gap: 1rem;
   }
@@ -147,14 +167,9 @@ import { nav, site } from "../data/site";
     .nav {
       display: none;
     }
-    .bar {
-      grid-template-columns: 1fr auto;
-    }
-    .wordmark {
-      justify-self: start;
-    }
     .burger {
       display: flex;
+      margin-left: auto;
     }
   }
 
@@ -254,4 +269,20 @@ import { nav, site } from "../data/site";
 
   setup();
   document.addEventListener("astro:page-load", setup);
+
+  const setupOverlayHeader = () => {
+    const header = document.querySelector<HTMLElement>(".masthead");
+    const hero = document.querySelector(".hero");
+    if (!header || !hero) return;
+
+    header.classList.add("masthead--overlay");
+    const onScroll = () => {
+      header.classList.toggle("masthead--solid", window.scrollY > 12);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  };
+
+  setupOverlayHeader();
+  document.addEventListener("astro:page-load", setupOverlayHeader);
 </script>

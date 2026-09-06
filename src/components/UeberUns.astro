@@ -4,7 +4,7 @@ import { gruender, site } from "../data/site";
 
 <section class="section section--night" id="ueber-uns">
   <div class="shell">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <p class="eyebrow">Über uns</p>
       <div>
         <h2 class="headline">Zwei Entwickler, ein Büro in {site.city}.</h2>
@@ -17,8 +17,8 @@ import { gruender, site } from "../data/site";
 
     <ul class="people">
       {
-        gruender.map((g) => (
-          <li class="person">
+        gruender.map((g, i) => (
+          <li class="person" data-reveal style={`--reveal-delay: ${i * 100}ms`}>
             <div class="person__portrait">
               {/* TODO: Portraitfoto einsetzen */}
               <span class="display">{g.name.slice(0, 1)}</span>

@@ -4,7 +4,7 @@ import { ablauf } from "../data/site";
 
 <section class="section section--tight" id="ablauf">
   <div class="shell">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <p class="eyebrow">Ablauf</p>
       <div>
         <h2 class="headline">Vom ersten Anruf bis zum laufenden Betrieb.</h2>
@@ -14,7 +14,7 @@ import { ablauf } from "../data/site";
     <ol class="steps">
       {
         ablauf.map((s, i) => (
-          <li class="step">
+          <li class="step" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
             <span class="step__no display">{String(i + 1)}</span>
             <div class="step__text">
               <h3 class="headline headline--sm">{s.title}</h3>

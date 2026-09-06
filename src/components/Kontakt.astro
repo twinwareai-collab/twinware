@@ -4,7 +4,7 @@ import { site } from "../data/site";
 
 <section class="section" id="kontakt">
   <div class="shell kontakt">
-    <div class="kontakt__intro">
+    <div class="kontakt__intro" data-reveal>
       <p class="eyebrow">Kontakt</p>
       <h2 class="headline">Erzählen Sie uns,<br />was hakt.</h2>
       <p class="lede prose-note kontakt__lede">
@@ -27,7 +27,14 @@ import { site } from "../data/site";
       </dl>
     </div>
 
-    <form class="form" data-form method="post" action="/api/kontakt">
+    <form
+      class="form"
+      data-form
+      data-reveal
+      style="--reveal-delay: 120ms"
+      method="post"
+      action="/api/kontakt"
+    >
       <div class="field">
         <label for="name">Ihr Name</label>
         <input id="name" name="name" type="text" autocomplete="name" required />

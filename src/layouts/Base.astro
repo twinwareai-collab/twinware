@@ -89,5 +89,32 @@ const jsonLd = {
         top: 0.5rem;
       }
     </style>
+    <script>
+      const setupReveal = () => {
+        const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+        if (!items.length) return;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          items.forEach((el) => el.classList.add("is-revealed"));
+          return;
+        }
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add("is-revealed");
+              io.unobserve(entry.target);
+            }
+          },
+          { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
+        );
+
+        items.forEach((el) => io.observe(el));
+      };
+
+      setupReveal();
+      document.addEventListener("astro:page-load", setupReveal);
+    </script>
   </body>
 </html>

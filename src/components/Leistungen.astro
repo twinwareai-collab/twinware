@@ -4,7 +4,7 @@ import { leistungen } from "../data/site";
 
 <section class="section" id="leistungen">
   <div class="shell">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <p class="eyebrow">Leistungen</p>
       <div>
         <h2 class="headline">
@@ -19,7 +19,11 @@ import { leistungen } from "../data/site";
     <div class="grid">
       {
         leistungen.map((l, i) => (
-          <article class:list={["cell", `cell--${l.size}`]}>
+          <article
+            class:list={["cell", `cell--${l.size}`]}
+            data-reveal
+            style={`--reveal-delay: ${Math.min(i, 4) * 80}ms`}
+          >
             <div class="cell__head">
               <span class="cell__num">{String(i + 1).padStart(2, "0")}</span>
               <p class="cell__tag">{l.tag}</p>

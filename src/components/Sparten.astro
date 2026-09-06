@@ -5,7 +5,11 @@ import { sparten } from "../data/site";
 <section class="sparten" id="sparten">
   {
     sparten.map((s, index) => (
-      <article class:list={["sparte", index === 1 && "sparte--night"]}>
+      <article
+        class:list={["sparte", index === 1 && "sparte--night"]}
+        data-reveal
+        style={`--reveal-delay: ${index * 120}ms`}
+      >
         <div class="sparte__inner">
           <p class="sparte__kicker">{s.kicker}</p>
           <h2 class="headline sparte__title">{s.title}</h2>

@@ -176,7 +176,24 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
+}
+
+/* ---------- Scroll-Reveal ---------- */
+
+[data-reveal] {
+  --reveal-delay: 0ms;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
 }
 
 /* ---------- Rechtstexte / einfache Seiten ---------- */
