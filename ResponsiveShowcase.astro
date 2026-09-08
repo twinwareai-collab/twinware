@@ -1,0 +1,675 @@
+---
+import MiniLayout from "./MiniLayout.astro";
+
+const punkte = [
+  {
+    title: "Zuerst das Telefon",
+    text: "Zwei von drei Besuchern kommen mobil. Wir bauen die kleine Ansicht zuerst und dehnen sie nach oben, nicht umgekehrt.",
+  },
+  {
+    title: "Unter einer Sekunde",
+    text: "Keine Seite, die erst nachlädt, springt und dann Ihren Besucher verliert. Bilder und Schriften kommen mit.",
+  },
+  {
+    title: "Für alle bedienbar",
+    text: "Tastatur, Screenreader, Kontrast. Nicht nur, weil es ab 2025 für viele Betriebe Pflicht ist.",
+  },
+];
+---
+
+<section class="section section--night showcase" id="responsive">
+  <div class="shell">
+    <div class="section-head" data-reveal>
+      <div>
+        <h2 class="headline">Dieselbe Seite auf jedem Gerät.</h2>
+        <p class="lede showcase__lede">
+          Nicht dreimal gebaut, sondern einmal richtig. Das Telefon in der Mitte
+          scrollt von allein – halten Sie den Zeiger darauf, um anzuhalten.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="devices">
+      <figure class="frame frame--desktop">
+        <figcaption class="frame__cap">Desktop · 1440px</figcaption>
+        <div class="browser">
+          <div class="browser__bar">
+            <span class="browser__dots"><i></i><i></i><i></i></span>
+            <span class="browser__url">twinware.de</span>
+          </div>
+          <div class="browser__view">
+            <canvas class="tile-scene" data-tile-scene-canvas aria-hidden="true"></canvas>
+            <MiniLayout cols={3} unit="13px" />
+          </div>
+        </div>
+      </figure>
+
+      <figure class="frame frame--phone">
+        <figcaption class="frame__cap">Telefon · 390px</figcaption>
+        <div class="phone" data-phone>
+          <div class="phone__screen">
+            <canvas class="tile-scene" data-tile-scene-canvas aria-hidden="true"></canvas>
+            <div class="phone__status">
+              <span>9:41</span>
+              <span class="phone__icons">
+                <i class="sig"></i>
+                <i class="wifi"></i>
+                <i class="bat"></i>
+              </span>
+            </div>
+            <div class="phone__scroll" data-scroll>
+              <MiniLayout cols={1} unit="15px" long />
+            </div>
+            <span class="phone__bar"></span>
+          </div>
+          <span class="phone__island"></span>
+        </div>
+      </figure>
+
+      <figure class="frame frame--tablet">
+        <figcaption class="frame__cap">Tablet · 834px</figcaption>
+        <div class="browser">
+          <div class="browser__bar">
+            <span class="browser__dots"><i></i><i></i><i></i></span>
+            <span class="browser__url">twinware.de</span>
+          </div>
+          <div class="browser__view">
+            <canvas class="tile-scene" data-tile-scene-canvas aria-hidden="true"></canvas>
+            <MiniLayout cols={2} unit="12px" />
+          </div>
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="shell">
+    <ul class="punkte">
+      {
+        punkte.map((p, i) => (
+          <li data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .showcase__lede {
+    margin-top: 1rem;
+    color: #b8b2ab;
+  }
+
+  .stage {
+    overflow: hidden;
+    padding-block: clamp(1rem, 3vw, 2rem) clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .devices {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+  }
+
+  .frame {
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+    justify-items: start;
+  }
+
+  .frame__cap {
+    font-size: 0.625rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a847d;
+    order: 2;
+  }
+
+  .frame--desktop,
+  .frame--tablet {
+    display: none;
+  }
+
+  @media (min-width: 64rem) {
+    .frame--desktop,
+    .frame--tablet {
+      display: grid;
+    }
+    .frame--phone {
+      margin-bottom: 3.5rem;
+      justify-items: center;
+    }
+  }
+
+  /* Browserrahmen */
+  .browser {
+    width: 34rem;
+    background: #1a1a1a;
+    border: 1px solid #3a3a3a;
+    order: 1;
+  }
+
+  .frame--tablet .browser {
+    width: 21rem;
+  }
+
+  .browser__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid #3a3a3a;
+  }
+
+  .browser__dots {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .browser__dots i {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: #4a4a4a;
+  }
+
+  .browser__url {
+    font-size: 0.5625rem;
+    color: #8a847d;
+    letter-spacing: 0.04em;
+    background: #262626;
+    padding: 0.15rem 0.6rem;
+    flex: 1;
+  }
+
+  .browser__view {
+    position: relative;
+    height: 22rem;
+    overflow: hidden;
+  }
+
+  .tile-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .frame--tablet .browser__view {
+    height: 19rem;
+  }
+
+  /* Telefon */
+  .phone {
+    --screen-h: 30rem;
+    position: relative;
+    width: 15.5rem;
+    padding: 0.5rem;
+    background: #050505;
+    border: 1px solid #3a3a3a;
+    border-radius: 2.2rem;
+    box-shadow: inset 0 0 0 2px #1e1e1e;
+    order: 1;
+  }
+
+  @media (max-width: 30rem) {
+    .phone {
+      --screen-h: 26rem;
+      width: 14rem;
+    }
+  }
+
+  .phone__screen {
+    position: relative;
+    height: var(--screen-h);
+    border-radius: 1.75rem;
+    overflow: hidden;
+    background: var(--color-paper);
+  }
+
+  .phone__island {
+    position: absolute;
+    top: 0.95rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4.2rem;
+    height: 1.05rem;
+    background: #050505;
+    border-radius: 999px;
+    z-index: 3;
+  }
+
+  .phone__status {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1.1rem 0;
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    background: linear-gradient(
+      to bottom,
+      var(--color-paper) 62%,
+      transparent
+    );
+    height: 1.9rem;
+  }
+
+  .phone__icons {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .phone__icons i {
+    display: block;
+    background: var(--color-ink);
+  }
+
+  .phone__icons .sig {
+    width: 0.85rem;
+    height: 0.5rem;
+    clip-path: polygon(0 70%, 22% 70%, 22% 100%, 0 100%, 0 70%, 33% 45%, 55% 45%, 55% 100%, 33% 100%, 33% 45%, 66% 20%, 88% 20%, 88% 100%, 66% 100%);
+  }
+
+  .phone__icons .wifi {
+    width: 0.6rem;
+    height: 0.45rem;
+    clip-path: polygon(50% 100%, 0 35%, 15% 20%, 50% 55%, 85% 20%, 100% 35%);
+  }
+
+  .phone__icons .bat {
+    width: 1.1rem;
+    height: 0.5rem;
+    border-radius: 2px;
+    background: none;
+    border: 1px solid var(--color-ink);
+    position: relative;
+  }
+
+  .phone__icons .bat::after {
+    content: "";
+    position: absolute;
+    inset: 1.5px;
+    right: 40%;
+    background: var(--color-ink);
+  }
+
+  .phone__bar {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34%;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(17, 17, 17, 0.35);
+    z-index: 2;
+  }
+
+  .phone__scroll {
+    padding-top: 1.9rem;
+    transform: translateY(0);
+  }
+
+  .phone.is-running .phone__scroll {
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+
+  .phone:hover .phone__scroll,
+  .phone:focus-within .phone__scroll {
+    animation-play-state: paused;
+  }
+
+  @keyframes drift {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% + var(--screen-h) - 1rem));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phone.is-running .phone__scroll {
+      animation: none;
+    }
+  }
+
+  /* Punkte darunter */
+  .punkte {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--color-rule-dark);
+  }
+
+  .punkte li {
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--color-rule-dark);
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+  }
+
+  @media (min-width: 56rem) {
+    .punkte {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .punkte li {
+      border-bottom: 0;
+      padding-right: clamp(1rem, 3vw, 2.5rem);
+      border-right: 1px solid var(--color-rule-dark);
+    }
+    .punkte li + li {
+      padding-left: clamp(1rem, 3vw, 2.5rem);
+    }
+    .punkte li:last-child {
+      border-right: 0;
+      padding-right: 0;
+    }
+  }
+
+  .punkte h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .punkte p {
+    color: #a8a29b;
+    font-size: 0.9375rem;
+    max-width: 24rem;
+  }
+</style>
+
+<script>
+  import * as THREE from "three";
+
+  let phoneObserver: IntersectionObserver | null = null;
+
+  const setup = () => {
+    phoneObserver?.disconnect();
+    const phones = document.querySelectorAll<HTMLElement>("[data-phone]");
+    if (!phones.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-running", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.25 },
+    );
+    phones.forEach((p) => io.observe(p));
+    phoneObserver = io;
+  };
+
+  document.addEventListener("astro:page-load", setup);
+
+  // Kern- und Ringfarbe je nach Kachelhintergrund, damit der Planet überall trägt.
+  const PALETTE: Record<string, [number, number]> = {
+    "#111111": [0xff4b2e, 0xfaf9f7],
+    "#ff4b2e": [0x1c1c1c, 0xfaf9f7],
+    "#8e8880": [0xff4b2e, 0xfaf9f7],
+    "#d8d2ca": [0xff4b2e, 0x1c1c1c],
+  };
+
+  type Tile = {
+    el: HTMLElement;
+    camera: THREE.PerspectiveCamera;
+    planet: THREE.Group;
+    core: THREE.Mesh;
+    clearColor: THREE.Color;
+  };
+
+  type TileHandle = {
+    renderer: THREE.WebGLRenderer;
+    scene: THREE.Scene;
+    tiles: Tile[];
+    materials: THREE.Material[];
+    envMap: THREE.Texture | null;
+    resize: () => void;
+    observer: IntersectionObserver;
+    stopLoop: () => void;
+  };
+
+  let tileHandles: TileHandle[] = [];
+  let sharedGeo: { core: THREE.BufferGeometry; ring: THREE.BufferGeometry } | null = null;
+  let generation = 0;
+
+  function cleanupTileScenes() {
+    generation += 1;
+    for (const handle of tileHandles) {
+      handle.stopLoop();
+      handle.observer.disconnect();
+      window.removeEventListener("resize", handle.resize);
+      handle.materials.forEach((m) => m.dispose());
+      handle.envMap?.dispose();
+      handle.renderer.forceContextLoss();
+      handle.renderer.dispose();
+    }
+    tileHandles = [];
+
+    sharedGeo?.core.dispose();
+    sharedGeo?.ring.dispose();
+    sharedGeo = null;
+  }
+
+  async function setupTileScenes() {
+    cleanupTileScenes();
+    const run = generation;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const canvases = document.querySelectorAll<HTMLCanvasElement>(
+      "[data-tile-scene-canvas]",
+    );
+    if (!canvases.length) return;
+
+    // Erst laden, wenn die Sektion wirklich gebraucht wird.
+    const { RoomEnvironment } = await import(
+      "three/addons/environments/RoomEnvironment.js"
+    );
+
+    // Waehrend des Ladens kann ein neuer Durchlauf gestartet worden sein.
+    if (run !== generation) return;
+
+    sharedGeo = {
+      core: new THREE.IcosahedronGeometry(0.58, 1),
+      ring: new THREE.TorusGeometry(1.02, 0.06, 12, 64),
+    };
+    const geo = sharedGeo;
+
+    canvases.forEach((canvas) => {
+      const container = canvas.parentElement;
+      if (!container) return;
+      const tileEls = container.querySelectorAll<HTMLElement>("[data-tile-scene]");
+      if (!tileEls.length) return;
+
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      } catch {
+        return;
+      }
+      renderer.setPixelRatio(1);
+      renderer.setScissorTest(true);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.05;
+
+      // Eine Szene je Renderer: Licht und Environment nur einmal aufbauen.
+      const scene = new THREE.Scene();
+
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      const room = new RoomEnvironment();
+      const envMap = pmrem.fromScene(room, 0.04).texture;
+      scene.environment = envMap;
+      room.dispose();
+      pmrem.dispose();
+
+      const key = new THREE.DirectionalLight(0xffffff, 2.6);
+      key.position.set(2.5, 3, 4);
+      const rim = new THREE.DirectionalLight(0xff8a6a, 1.4);
+      rim.position.set(-3, -1.5, -2.5);
+      scene.add(key, rim, new THREE.AmbientLight(0xffffff, 0.35));
+
+      const materials: THREE.Material[] = [];
+
+      const tiles: Tile[] = Array.from(tileEls).map((el, i) => {
+        const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 20);
+        camera.position.set(0, 0.55, 3.4);
+        camera.lookAt(0, 0, 0);
+
+        const colorHex = el.dataset.tileColor ?? "#111111";
+        const [coreColor, ringColor] = PALETTE[colorHex] ?? [0xff4b2e, 0xfaf9f7];
+
+        const coreMat = new THREE.MeshStandardMaterial({
+          color: coreColor,
+          flatShading: true,
+          metalness: 0.35,
+          roughness: 0.42,
+          envMapIntensity: 0.9,
+        });
+        const ringMat = new THREE.MeshStandardMaterial({
+          color: ringColor,
+          metalness: 0.85,
+          roughness: 0.22,
+          envMapIntensity: 1.1,
+        });
+        materials.push(coreMat, ringMat);
+
+        const core = new THREE.Mesh(geo.core, coreMat);
+        const ring = new THREE.Mesh(geo.ring, ringMat);
+        ring.rotation.x = 1.15;
+
+        const planet = new THREE.Group();
+        planet.add(core, ring);
+        planet.rotation.y = i * 0.7;
+        planet.visible = false;
+        scene.add(planet);
+
+        return { el, camera, planet, core, clearColor: new THREE.Color(colorHex) };
+      });
+
+      const renderFrame = (dt: number) => {
+        const canvasRect = canvas.getBoundingClientRect();
+        if (canvasRect.width <= 0 || canvasRect.height <= 0) return;
+
+        for (const tile of tiles) {
+          if (!reduceMotion) {
+            tile.planet.rotation.y += dt * 0.5;
+            tile.core.rotation.y -= dt * 0.7;
+            tile.core.rotation.x += dt * 0.26;
+          }
+
+          const r = tile.el.getBoundingClientRect();
+          if (r.width <= 0 || r.height <= 0) continue;
+
+          // Kacheln, die im Geraeterahmen weggescrollt sind, gar nicht erst zeichnen.
+          if (
+            r.bottom <= canvasRect.top ||
+            r.top >= canvasRect.bottom ||
+            r.right <= canvasRect.left ||
+            r.left >= canvasRect.right
+          ) {
+            continue;
+          }
+
+          // In CSS-Pixeln: three.js rechnet die Pixel-Ratio selbst dazu.
+          const x = r.left - canvasRect.left;
+          const y = canvasRect.bottom - r.bottom;
+          const w = r.width;
+          const h = r.height;
+
+          renderer.setScissor(x, y, w, h);
+          renderer.setViewport(x, y, w, h);
+          renderer.setClearColor(tile.clearColor, 1);
+          renderer.clear();
+
+          tile.camera.aspect = w / h;
+          tile.camera.updateProjectionMatrix();
+
+          // Nur der Planet dieser Kachel ist im Ausschnitt sichtbar.
+          tile.planet.visible = true;
+          renderer.render(scene, tile.camera);
+          tile.planet.visible = false;
+        }
+      };
+
+      const resize = () => {
+        const rect = container.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+        renderer.setSize(rect.width, rect.height, false);
+        renderFrame(0);
+      };
+
+      let raf = 0;
+      let last = performance.now();
+      let carry = 0;
+
+      // 30 fps reichen fuer die ruhige Rotation und halbieren die Fuellrate.
+      const FRAME_MS = 1000 / 30;
+
+      const loop = (now: number) => {
+        raf = requestAnimationFrame(loop);
+        const elapsed = now - last;
+        if (elapsed + carry < FRAME_MS) return;
+        carry = Math.min(elapsed + carry - FRAME_MS, FRAME_MS);
+        last = now;
+        renderFrame(Math.min(elapsed / 1000, 0.1));
+      };
+
+      const startLoop = () => {
+        if (raf || reduceMotion) return;
+        last = performance.now();
+        carry = 0;
+        raf = requestAnimationFrame(loop);
+      };
+      const stopLoop = () => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      };
+
+      // Nur rendern, solange der Geraeterahmen wirklich im Bild ist.
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) startLoop();
+            else stopLoop();
+          }
+        },
+        { threshold: 0 },
+      );
+      observer.observe(container);
+
+      resize();
+      window.addEventListener("resize", resize);
+      tileHandles.push({
+        renderer,
+        scene,
+        tiles,
+        materials,
+        envMap,
+        resize,
+        observer,
+        stopLoop,
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupTileScenes);
+  document.addEventListener("astro:before-swap", cleanupTileScenes);
+</script>

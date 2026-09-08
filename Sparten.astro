@@ -1,0 +1,103 @@
+---
+import { sparten } from "../data/site";
+---
+
+<section class="sparten" id="sparten">
+  {
+    sparten.map((s, index) => (
+      <article
+        class:list={["sparte", index === 1 && "sparte--night"]}
+        data-reveal
+        style={`--reveal-delay: ${index * 120}ms`}
+      >
+        <div class="sparte__inner">
+          <h2 class="headline sparte__title">{s.title}</h2>
+          <p class="sparte__body">{s.body}</p>
+          <ul class="sparte__list">
+            {s.items.map((item) => (
+              <li>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </article>
+    ))
+  }
+</section>
+
+<style>
+  .sparten {
+    display: grid;
+  }
+
+  @media (min-width: 64rem) {
+    .sparten {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .sparte {
+    padding: clamp(3rem, 6vw, 5.5rem) var(--gutter);
+  }
+
+  .sparte__inner {
+    max-width: 34rem;
+    margin-inline: auto;
+  }
+
+  .sparte--night {
+    background: var(--color-night);
+    color: var(--color-paper);
+  }
+
+  .sparte__title {
+    margin-top: 0;
+  }
+
+  .sparte__body {
+    margin-top: 1.25rem;
+    max-width: 30rem;
+    color: var(--color-muted);
+  }
+
+  .sparte--night .sparte__body {
+    color: #b8b2ab;
+  }
+
+  .sparte__list {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .sparte--night .sparte__list {
+    border-color: var(--color-rule-dark);
+  }
+
+  .sparte__list li {
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--color-rule);
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .sparte--night .sparte__list li {
+    border-color: var(--color-rule-dark);
+  }
+
+  .sparte__list h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  .sparte__list p {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .sparte--night .sparte__list p {
+    color: #a8a29b;
+  }
+</style>

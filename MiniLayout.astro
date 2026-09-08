@@ -1,0 +1,271 @@
+---
+interface Props {
+  cols: 1 | 2 | 3;
+  unit?: string;
+  long?: boolean;
+}
+
+const { cols, unit = "14px", long = false } = Astro.props;
+
+const tiles = [
+  { label: "Websites", swatch: "#111111" },
+  { label: "Webapps", swatch: "#ff4b2e" },
+  { label: "Apps", swatch: "#8e8880" },
+  { label: "Wartung", swatch: "#111111" },
+  { label: "Schnittstellen", swatch: "#d8d2ca" },
+  { label: "Betrieb", swatch: "#ff4b2e" },
+];
+
+const visible = long ? tiles : tiles.slice(0, cols === 1 ? 3 : cols * 2);
+---
+
+<div class="mini" data-cols={cols} style={`--u:${unit}`} aria-hidden="true">
+  <div class="mini__bar">
+    <span class="mini__mark">Twinware</span>
+    <span class="mini__menu"><i></i><i></i></span>
+  </div>
+
+  <div class="mini__hero">
+    <span class="mini__title">TWIN<em>W</em>ARE</span>
+    <span class="mini__lines">
+      <i style="width:78%"></i>
+      <i style="width:54%"></i>
+    </span>
+    <span class="mini__link"></span>
+  </div>
+
+  <div class="mini__meta">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="mini__grid">
+    {
+      visible.map((t) => (
+        <div class="mini__tile">
+          <span
+            class="mini__swatch"
+            style={`background:${t.swatch}`}
+            data-tile-scene
+            data-tile-color={t.swatch}
+          />
+          <span class="mini__label">{t.label}</span>
+          <span class="mini__lines">
+            <i style="width:92%" />
+            <i style="width:66%" />
+          </span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="mini__rows">
+    {
+      [0, 1, 2].map(() => (
+        <div class="mini__row">
+          <span class="mini__thumb" />
+          <span class="mini__lines">
+            <i style="width:88%" />
+            <i style="width:70%" />
+            <i style="width:46%" />
+          </span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="mini__cta">
+    <span class="mini__ctaLines">
+      <i style="width:60%"></i>
+      <i style="width:38%"></i>
+    </span>
+    <span class="mini__btn"></span>
+  </div>
+</div>
+
+<style>
+  .mini {
+    font-size: var(--u);
+    font-family: var(--font-sans);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    line-height: 1;
+    padding-bottom: 1em;
+  }
+
+  .mini__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5em 0.7em;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .mini__mark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.5em;
+    letter-spacing: 0.1em;
+  }
+
+  .mini__menu {
+    display: grid;
+    gap: 0.14em;
+    width: 0.75em;
+  }
+
+  .mini__menu i {
+    height: 1px;
+    background: var(--color-ink);
+  }
+
+  .mini__hero {
+    background: var(--color-night);
+    color: var(--color-paper);
+    padding: 0.9em 0.7em 0.8em;
+    display: grid;
+    gap: 0.6em;
+  }
+
+  .mini__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.55em;
+    line-height: 0.85;
+    letter-spacing: -0.015em;
+    display: block;
+  }
+
+  .mini[data-cols="1"] .mini__title {
+    font-size: 1.35em;
+  }
+
+  .mini__title em {
+    font-style: normal;
+    color: var(--color-accent);
+  }
+
+  .mini__lines {
+    display: grid;
+    gap: 0.28em;
+  }
+
+  .mini__lines i {
+    height: 0.16em;
+    background: currentColor;
+    opacity: 0.32;
+    display: block;
+  }
+
+  .mini__link {
+    width: 3.2em;
+    height: 0.2em;
+    background: var(--color-accent);
+  }
+
+  .mini__meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .mini__meta span {
+    height: 1.15em;
+    border-right: 1px solid var(--color-rule);
+  }
+
+  .mini__meta span:last-child {
+    border-right: 0;
+  }
+
+  .mini__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    padding: 0.7em;
+    gap: 0.7em;
+  }
+
+  .mini[data-cols="1"] .mini__grid {
+    --cols: 1;
+  }
+  .mini[data-cols="2"] .mini__grid {
+    --cols: 2;
+  }
+  .mini[data-cols="3"] .mini__grid {
+    --cols: 3;
+  }
+
+  .mini__tile {
+    display: grid;
+    gap: 0.35em;
+  }
+
+  .mini__swatch {
+    display: block;
+    aspect-ratio: 4 / 3;
+  }
+
+  .mini[data-cols="1"] .mini__swatch {
+    aspect-ratio: 16 / 7;
+  }
+
+  .mini__label {
+    font-size: 0.42em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .mini__rows {
+    display: grid;
+    gap: 0.6em;
+    padding: 0 0.7em;
+    border-top: 1px solid var(--color-rule);
+    padding-top: 0.7em;
+  }
+
+  .mini__row {
+    display: grid;
+    grid-template-columns: 2.6em 1fr;
+    gap: 0.6em;
+    align-items: center;
+    padding-bottom: 0.6em;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .mini__thumb {
+    display: block;
+    aspect-ratio: 1;
+    background: #ded9d2;
+  }
+
+  .mini__cta {
+    margin: 0.8em 0.7em 0;
+    background: var(--color-night);
+    color: var(--color-paper);
+    padding: 0.7em;
+    display: grid;
+    gap: 0.5em;
+  }
+
+  .mini__ctaLines {
+    display: grid;
+    gap: 0.28em;
+  }
+
+  .mini__ctaLines i {
+    height: 0.16em;
+    background: currentColor;
+    opacity: 0.32;
+    display: block;
+  }
+
+  .mini__btn {
+    width: 4em;
+    height: 0.9em;
+    background: var(--color-accent);
+  }
+</style>
