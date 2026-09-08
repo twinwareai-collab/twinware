@@ -30,6 +30,13 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -109,15 +116,6 @@ a {
   font-size: clamp(1.6rem, 2.6vw, 2.3rem);
 }
 
-.eyebrow {
-  font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
 .lede {
   font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
   line-height: 1.55;
@@ -144,6 +142,7 @@ a {
 
 .section {
   padding-block: var(--section-space);
+  scroll-margin-top: 3.5rem;
 }
 
 .section--tight {
@@ -160,13 +159,7 @@ a {
   gap: 1.25rem;
   grid-template-columns: minmax(0, 1fr);
   padding-bottom: clamp(2rem, 4vw, 3rem);
-}
-
-@media (min-width: 60rem) {
-  .section-head {
-    grid-template-columns: 14rem minmax(0, 1fr);
-    gap: 2.5rem;
-  }
+  max-width: 46rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -185,7 +178,8 @@ a {
 [data-reveal] {
   --reveal-delay: 0ms;
   opacity: 0;
-  transform: translateY(28px);
+  transform: perspective(1200px) translateY(34px) rotateX(12deg);
+  transform-origin: 50% 100%;
   transition:
     opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
     transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay);
@@ -193,7 +187,7 @@ a {
 
 [data-reveal].is-revealed {
   opacity: 1;
-  transform: none;
+  transform: perspective(1200px) translateY(0) rotateX(0deg);
 }
 
 /* ---------- Rechtstexte / einfache Seiten ---------- */

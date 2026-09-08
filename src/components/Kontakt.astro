@@ -5,7 +5,6 @@ import { site } from "../data/site";
 <section class="section" id="kontakt">
   <div class="shell kontakt">
     <div class="kontakt__intro" data-reveal>
-      <p class="eyebrow">Kontakt</p>
       <h2 class="headline">Erzählen Sie uns,<br />was hakt.</h2>
       <p class="lede prose-note kontakt__lede">
         Erstgespräch dauert 30 Minuten und kostet nichts. Wenn wir nicht die
@@ -28,46 +27,28 @@ import { site } from "../data/site";
     </div>
 
     <div class="kontakt__room" data-reveal style="--reveal-delay: 120ms">
-      <input type="checkbox" id="kontakt-licht" class="kontakt__checkbox" />
-
-      <div class="kontakt__room-inner">
-        <form class="form" data-form method="post" action="/api/kontakt">
-          <div class="field">
-            <label for="name">Ihr Name</label>
-            <input id="name" name="name" type="text" autocomplete="name" required />
-          </div>
-          <div class="field">
-            <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" required />
-          </div>
-          <div class="field">
-            <label for="nachricht">Worum geht es?</label>
-            <textarea id="nachricht" name="nachricht" rows="4" required></textarea>
-          </div>
-          <div class="form__foot">
-            <button type="submit">Anfrage senden</button>
-            <p class="form__hinweis">
-              Ihre Angaben nutzen wir nur für die Antwort auf diese Anfrage.
-              <a href="/datenschutz">Datenschutz</a>
-            </p>
-          </div>
-          <p class="form__status" data-status role="status" aria-live="polite"></p>
-        </form>
-      </div>
-
-      <div class="kontakt__overlay" data-overlay>
-        <span class="kontakt__flash" aria-hidden="true"></span>
-        <p class="kontakt__overlay-hint">
-          Hier ist es dunkel.<br />Ohne Kontakt tut sich nichts.
-        </p>
-        <label class="kontakt__switch" for="kontakt-licht">
-          <span class="kontakt__switch-plate" aria-hidden="true">
-            <span class="kontakt__switch-led"></span>
-            <span class="kontakt__switch-rocker"></span>
-          </span>
-          <span class="kontakt__switch-text">Kontakt herstellen</span>
-        </label>
-      </div>
+      <form class="form" data-form method="post" action="/api/kontakt">
+        <div class="field">
+          <label for="name">Ihr Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="email">E-Mail</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="nachricht">Worum geht es?</label>
+          <textarea id="nachricht" name="nachricht" rows="4" required></textarea>
+        </div>
+        <div class="form__foot">
+          <button type="submit">Anfrage senden</button>
+          <p class="form__hinweis">
+            Ihre Angaben nutzen wir nur für die Antwort auf diese Anfrage.
+            <a href="/datenschutz">Datenschutz</a>
+          </p>
+        </div>
+        <p class="form__status" data-status role="status" aria-live="polite"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -122,6 +103,11 @@ import { site } from "../data/site";
   .kontakt__direkt a {
     text-decoration: none;
     border-bottom: 1px solid var(--color-accent);
+  }
+
+  .kontakt__room {
+    background: var(--color-panel);
+    padding: clamp(1.75rem, 4vw, 3rem);
   }
 
   .field {
@@ -206,159 +192,6 @@ import { site } from "../data/site";
   .form__status[data-state="error"] {
     color: var(--color-accent);
   }
-
-  /* ---------- Lichtschalter ---------- */
-
-  .kontakt__room {
-    position: relative;
-  }
-
-  .kontakt__checkbox {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  .kontakt__checkbox:focus-visible {
-    outline: none;
-  }
-
-  .kontakt__overlay {
-    --mx: 50%;
-    --my: 64%;
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: grid;
-    justify-items: center;
-    align-content: center;
-    gap: 1.75rem;
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-    text-align: center;
-    background:
-      radial-gradient(220px circle at var(--mx) var(--my), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 62%),
-      var(--color-night);
-    clip-path: circle(150% at var(--mx) var(--my));
-    transition: clip-path 0.2s ease;
-  }
-
-  .kontakt__flash {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255, 214, 153, 0.4), rgba(255, 214, 153, 0) 65%);
-    opacity: 0;
-  }
-
-  .kontakt__overlay-hint {
-    position: relative;
-    color: #a8a29b;
-    font-size: 0.9375rem;
-    line-height: 1.5;
-  }
-
-  .kontakt__switch {
-    position: relative;
-    display: grid;
-    justify-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-  }
-
-  .kontakt__switch:active .kontakt__switch-plate {
-    transform: scale(0.96);
-  }
-
-  .kontakt__switch-plate {
-    position: relative;
-    width: 3.25rem;
-    height: 5rem;
-    background: #1c1c1c;
-    border: 1px solid #333;
-    display: grid;
-    justify-items: center;
-    align-content: start;
-    padding-top: 0.5rem;
-    transition: transform 0.1s ease;
-  }
-
-  .kontakt__switch-led {
-    width: 5px;
-    height: 5px;
-    background: #4a4a4a;
-    transition: background 0.15s ease, box-shadow 0.15s ease;
-  }
-
-  .kontakt__switch-rocker {
-    position: absolute;
-    left: 0.4rem;
-    right: 0.4rem;
-    bottom: 0.5rem;
-    height: 2.25rem;
-    background: #3a3a3a;
-    border-top: 1px solid #1c1c1c;
-    transition: transform 0.15s ease, background 0.15s ease;
-  }
-
-  .kontakt__switch-text {
-    position: relative;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-  }
-
-  @keyframes kontakt-flacker {
-    0% { opacity: 0; }
-    5% { opacity: 0.9; }
-    9% { opacity: 0.1; }
-    14% { opacity: 0.75; }
-    19% { opacity: 0; }
-    26% { opacity: 1; }
-    31% { opacity: 0.2; }
-    38% { opacity: 0.85; }
-    45% { opacity: 0.05; }
-    55% { opacity: 1; }
-    64% { opacity: 0.3; }
-    75% { opacity: 0.9; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes kontakt-lichtkreis {
-    0% { clip-path: circle(150% at var(--mx) var(--my)); }
-    100% { clip-path: circle(0% at var(--mx) var(--my)); }
-  }
-
-  #kontakt-licht:focus-visible ~ .kontakt__overlay .kontakt__switch-plate {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 4px;
-  }
-
-  #kontakt-licht:checked ~ .kontakt__overlay .kontakt__switch-rocker {
-    transform: translateY(-1.55rem);
-    background: var(--color-accent);
-  }
-
-  #kontakt-licht:checked ~ .kontakt__overlay .kontakt__switch-led {
-    background: var(--color-accent);
-    box-shadow: 0 0 6px 2px var(--color-accent);
-  }
-
-  #kontakt-licht:checked ~ .kontakt__overlay {
-    pointer-events: none;
-    transition: none;
-    animation: kontakt-lichtkreis 1.3s ease-in 0.85s forwards;
-  }
-
-  #kontakt-licht:checked ~ .kontakt__overlay .kontakt__flash {
-    animation: kontakt-flacker 0.85s steps(1, end) forwards;
-  }
 </style>
 
 <script>
@@ -404,37 +237,4 @@ import { site } from "../data/site";
 
   setup();
   document.addEventListener("astro:page-load", setup);
-
-  // Solange das Licht aus ist, ist das Formular optisch verdeckt –
-  // ohne "inert" bliebe es per Tab trotzdem erreichbar.
-  const setupLicht = () => {
-    const checkbox = document.querySelector<HTMLInputElement>("#kontakt-licht");
-    const room = document.querySelector<HTMLElement>(".kontakt__room-inner");
-    if (!checkbox || !room || !("inert" in HTMLElement.prototype)) return;
-
-    const sync = () => room.toggleAttribute("inert", !checkbox.checked);
-    checkbox.addEventListener("change", sync);
-    sync();
-  };
-
-  setupLicht();
-  document.addEventListener("astro:page-load", setupLicht);
-
-  // Taschenlampe im Dunkeln: der Schalter tastet sich per Cursor heran.
-  const setupTaschenlampe = () => {
-    const room = document.querySelector<HTMLElement>(".kontakt__room");
-    const overlay = document.querySelector<HTMLElement>("[data-overlay]");
-    if (!room || !overlay || !window.matchMedia("(hover: hover)").matches) return;
-
-    room.addEventListener("pointermove", (event) => {
-      const rect = overlay.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      overlay.style.setProperty("--mx", `${x}%`);
-      overlay.style.setProperty("--my", `${y}%`);
-    });
-  };
-
-  setupTaschenlampe();
-  document.addEventListener("astro:page-load", setupTaschenlampe);
 </script>

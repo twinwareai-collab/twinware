@@ -5,7 +5,6 @@ import { leistungen } from "../data/site";
 <section class="section" id="leistungen">
   <div class="shell">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Leistungen</p>
       <div>
         <h2 class="headline">
           Sechs Sachen stehen<br class="br" /> zur Auswahl.
@@ -69,20 +68,7 @@ import { leistungen } from "../data/site";
     align-content: start;
     gap: 0.65rem;
     background: var(--color-panel);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
-  }
-
-  @media (hover: hover) {
-    .cell:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 1.25rem 2.5rem rgba(17, 17, 17, 0.14);
-      z-index: 1;
-    }
-
-    .cell:hover .cell__tag {
-      transform: rotate(0deg);
-    }
   }
 
   @media (min-width: 48rem) {
@@ -135,22 +121,20 @@ import { leistungen } from "../data/site";
   }
 
   .cell__tag {
-    display: inline-block;
-    background: var(--color-accent);
-    color: var(--color-paper);
-    padding: 0.28em 0.75em;
-    border-radius: 999px;
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    transform: rotate(-2deg);
-    transition: transform 0.2s ease;
+    color: var(--color-muted);
+  }
+
+  .cell:nth-child(1) .cell__tag,
+  .cell:nth-child(5) .cell__tag {
+    color: rgba(250, 249, 247, 0.55);
   }
 
   .cell:nth-child(3) .cell__tag {
-    background: var(--color-ink);
-    color: var(--color-paper);
+    color: rgba(17, 17, 17, 0.6);
   }
 
   .cell--wide .cell__title {

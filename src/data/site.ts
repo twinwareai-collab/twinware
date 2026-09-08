@@ -23,7 +23,6 @@ export const nav = [
 ] as const;
 
 export type Sparte = {
-  kicker: string;
   title: string;
   body: string;
   items: { title: string; text: string }[];
@@ -31,7 +30,6 @@ export type Sparte = {
 
 export const sparten: Sparte[] = [
   {
-    kicker: "Sparte eins",
     title: "Web & Anwendungen",
     body: "Alles, was im Browser oder auf dem Telefon läuft. Wir bauen es von Hand, ohne Baukasten und ohne Theme, das man nach zwei Jahren nicht mehr aktualisiert bekommt.",
     items: [
@@ -54,7 +52,6 @@ export const sparten: Sparte[] = [
     ],
   },
   {
-    kicker: "Sparte zwei",
     title: "Wartung & Betrieb",
     body: "Eine Website, die einmal gebaut und dann nie wieder angefasst wird, veraltet. Wir betreuen, was wir gebaut haben, auch danach – technisch und inhaltlich.",
     items: [

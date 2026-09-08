@@ -11,7 +11,6 @@ import { sparten } from "../data/site";
         style={`--reveal-delay: ${index * 120}ms`}
       >
         <div class="sparte__inner">
-          <p class="sparte__kicker">{s.kicker}</p>
           <h2 class="headline sparte__title">{s.title}</h2>
           <p class="sparte__body">{s.body}</p>
           <ul class="sparte__list">
@@ -53,16 +52,8 @@ import { sparten } from "../data/site";
     color: var(--color-paper);
   }
 
-  .sparte__kicker {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-  }
-
   .sparte__title {
-    margin-top: 0.75rem;
+    margin-top: 0;
   }
 
   .sparte__body {

@@ -20,7 +20,6 @@ const punkte = [
 <section class="section section--night showcase" id="responsive">
   <div class="shell">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Ein Entwurf, drei Größen</p>
       <div>
         <h2 class="headline">Dieselbe Seite auf jedem Gerät.</h2>
         <p class="lede showcase__lede">
@@ -41,6 +40,7 @@ const punkte = [
             <span class="browser__url">twinware.de</span>
           </div>
           <div class="browser__view">
+            <canvas class="tile-scene" data-tile-scene-canvas aria-hidden="true"></canvas>
             <MiniLayout cols={3} unit="13px" />
           </div>
         </div>
@@ -50,6 +50,7 @@ const punkte = [
         <figcaption class="frame__cap">Telefon · 390px</figcaption>
         <div class="phone" data-phone>
           <div class="phone__screen">
+            <canvas class="tile-scene" data-tile-scene-canvas aria-hidden="true"></canvas>
             <div class="phone__status">
               <span>9:41</span>
               <span class="phone__icons">
@@ -75,6 +76,7 @@ const punkte = [
             <span class="browser__url">twinware.de</span>
           </div>
           <div class="browser__view">
+            <canvas class="tile-scene" data-tile-scene-canvas aria-hidden="true"></canvas>
             <MiniLayout cols={2} unit="12px" />
           </div>
         </div>
@@ -187,8 +189,18 @@ const punkte = [
   }
 
   .browser__view {
+    position: relative;
     height: 22rem;
     overflow: hidden;
+  }
+
+  .tile-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
   }
 
   .frame--tablet .browser__view {
@@ -383,7 +395,12 @@ const punkte = [
 </style>
 
 <script>
+  import * as THREE from "three";
+
+  let phoneObserver: IntersectionObserver | null = null;
+
   const setup = () => {
+    phoneObserver?.disconnect();
     const phones = document.querySelectorAll<HTMLElement>("[data-phone]");
     if (!phones.length) return;
     const io = new IntersectionObserver(
@@ -395,8 +412,264 @@ const punkte = [
       { threshold: 0.25 },
     );
     phones.forEach((p) => io.observe(p));
+    phoneObserver = io;
   };
 
-  setup();
   document.addEventListener("astro:page-load", setup);
+
+  // Kern- und Ringfarbe je nach Kachelhintergrund, damit der Planet überall trägt.
+  const PALETTE: Record<string, [number, number]> = {
+    "#111111": [0xff4b2e, 0xfaf9f7],
+    "#ff4b2e": [0x1c1c1c, 0xfaf9f7],
+    "#8e8880": [0xff4b2e, 0xfaf9f7],
+    "#d8d2ca": [0xff4b2e, 0x1c1c1c],
+  };
+
+  type Tile = {
+    el: HTMLElement;
+    camera: THREE.PerspectiveCamera;
+    planet: THREE.Group;
+    core: THREE.Mesh;
+    clearColor: THREE.Color;
+  };
+
+  type TileHandle = {
+    renderer: THREE.WebGLRenderer;
+    scene: THREE.Scene;
+    tiles: Tile[];
+    materials: THREE.Material[];
+    envMap: THREE.Texture | null;
+    resize: () => void;
+    observer: IntersectionObserver;
+    stopLoop: () => void;
+  };
+
+  let tileHandles: TileHandle[] = [];
+  let sharedGeo: { core: THREE.BufferGeometry; ring: THREE.BufferGeometry } | null = null;
+  let generation = 0;
+
+  function cleanupTileScenes() {
+    generation += 1;
+    for (const handle of tileHandles) {
+      handle.stopLoop();
+      handle.observer.disconnect();
+      window.removeEventListener("resize", handle.resize);
+      handle.materials.forEach((m) => m.dispose());
+      handle.envMap?.dispose();
+      handle.renderer.forceContextLoss();
+      handle.renderer.dispose();
+    }
+    tileHandles = [];
+
+    sharedGeo?.core.dispose();
+    sharedGeo?.ring.dispose();
+    sharedGeo = null;
+  }
+
+  async function setupTileScenes() {
+    cleanupTileScenes();
+    const run = generation;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const canvases = document.querySelectorAll<HTMLCanvasElement>(
+      "[data-tile-scene-canvas]",
+    );
+    if (!canvases.length) return;
+
+    // Erst laden, wenn die Sektion wirklich gebraucht wird.
+    const { RoomEnvironment } = await import(
+      "three/addons/environments/RoomEnvironment.js"
+    );
+
+    // Waehrend des Ladens kann ein neuer Durchlauf gestartet worden sein.
+    if (run !== generation) return;
+
+    sharedGeo = {
+      core: new THREE.IcosahedronGeometry(0.58, 1),
+      ring: new THREE.TorusGeometry(1.02, 0.06, 12, 64),
+    };
+    const geo = sharedGeo;
+
+    canvases.forEach((canvas) => {
+      const container = canvas.parentElement;
+      if (!container) return;
+      const tileEls = container.querySelectorAll<HTMLElement>("[data-tile-scene]");
+      if (!tileEls.length) return;
+
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      } catch {
+        return;
+      }
+      renderer.setPixelRatio(1);
+      renderer.setScissorTest(true);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.05;
+
+      // Eine Szene je Renderer: Licht und Environment nur einmal aufbauen.
+      const scene = new THREE.Scene();
+
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      const room = new RoomEnvironment();
+      const envMap = pmrem.fromScene(room, 0.04).texture;
+      scene.environment = envMap;
+      room.dispose();
+      pmrem.dispose();
+
+      const key = new THREE.DirectionalLight(0xffffff, 2.6);
+      key.position.set(2.5, 3, 4);
+      const rim = new THREE.DirectionalLight(0xff8a6a, 1.4);
+      rim.position.set(-3, -1.5, -2.5);
+      scene.add(key, rim, new THREE.AmbientLight(0xffffff, 0.35));
+
+      const materials: THREE.Material[] = [];
+
+      const tiles: Tile[] = Array.from(tileEls).map((el, i) => {
+        const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 20);
+        camera.position.set(0, 0.55, 3.4);
+        camera.lookAt(0, 0, 0);
+
+        const colorHex = el.dataset.tileColor ?? "#111111";
+        const [coreColor, ringColor] = PALETTE[colorHex] ?? [0xff4b2e, 0xfaf9f7];
+
+        const coreMat = new THREE.MeshStandardMaterial({
+          color: coreColor,
+          flatShading: true,
+          metalness: 0.35,
+          roughness: 0.42,
+          envMapIntensity: 0.9,
+        });
+        const ringMat = new THREE.MeshStandardMaterial({
+          color: ringColor,
+          metalness: 0.85,
+          roughness: 0.22,
+          envMapIntensity: 1.1,
+        });
+        materials.push(coreMat, ringMat);
+
+        const core = new THREE.Mesh(geo.core, coreMat);
+        const ring = new THREE.Mesh(geo.ring, ringMat);
+        ring.rotation.x = 1.15;
+
+        const planet = new THREE.Group();
+        planet.add(core, ring);
+        planet.rotation.y = i * 0.7;
+        planet.visible = false;
+        scene.add(planet);
+
+        return { el, camera, planet, core, clearColor: new THREE.Color(colorHex) };
+      });
+
+      const renderFrame = (dt: number) => {
+        const canvasRect = canvas.getBoundingClientRect();
+        if (canvasRect.width <= 0 || canvasRect.height <= 0) return;
+
+        for (const tile of tiles) {
+          if (!reduceMotion) {
+            tile.planet.rotation.y += dt * 0.5;
+            tile.core.rotation.y -= dt * 0.7;
+            tile.core.rotation.x += dt * 0.26;
+          }
+
+          const r = tile.el.getBoundingClientRect();
+          if (r.width <= 0 || r.height <= 0) continue;
+
+          // Kacheln, die im Geraeterahmen weggescrollt sind, gar nicht erst zeichnen.
+          if (
+            r.bottom <= canvasRect.top ||
+            r.top >= canvasRect.bottom ||
+            r.right <= canvasRect.left ||
+            r.left >= canvasRect.right
+          ) {
+            continue;
+          }
+
+          // In CSS-Pixeln: three.js rechnet die Pixel-Ratio selbst dazu.
+          const x = r.left - canvasRect.left;
+          const y = canvasRect.bottom - r.bottom;
+          const w = r.width;
+          const h = r.height;
+
+          renderer.setScissor(x, y, w, h);
+          renderer.setViewport(x, y, w, h);
+          renderer.setClearColor(tile.clearColor, 1);
+          renderer.clear();
+
+          tile.camera.aspect = w / h;
+          tile.camera.updateProjectionMatrix();
+
+          // Nur der Planet dieser Kachel ist im Ausschnitt sichtbar.
+          tile.planet.visible = true;
+          renderer.render(scene, tile.camera);
+          tile.planet.visible = false;
+        }
+      };
+
+      const resize = () => {
+        const rect = container.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+        renderer.setSize(rect.width, rect.height, false);
+        renderFrame(0);
+      };
+
+      let raf = 0;
+      let last = performance.now();
+      let carry = 0;
+
+      // 30 fps reichen fuer die ruhige Rotation und halbieren die Fuellrate.
+      const FRAME_MS = 1000 / 30;
+
+      const loop = (now: number) => {
+        raf = requestAnimationFrame(loop);
+        const elapsed = now - last;
+        if (elapsed + carry < FRAME_MS) return;
+        carry = Math.min(elapsed + carry - FRAME_MS, FRAME_MS);
+        last = now;
+        renderFrame(Math.min(elapsed / 1000, 0.1));
+      };
+
+      const startLoop = () => {
+        if (raf || reduceMotion) return;
+        last = performance.now();
+        carry = 0;
+        raf = requestAnimationFrame(loop);
+      };
+      const stopLoop = () => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      };
+
+      // Nur rendern, solange der Geraeterahmen wirklich im Bild ist.
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) startLoop();
+            else stopLoop();
+          }
+        },
+        { threshold: 0 },
+      );
+      observer.observe(container);
+
+      resize();
+      window.addEventListener("resize", resize);
+      tileHandles.push({
+        renderer,
+        scene,
+        tiles,
+        materials,
+        envMap,
+        resize,
+        observer,
+        stopLoop,
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupTileScenes);
+  document.addEventListener("astro:before-swap", cleanupTileScenes);
 </script>
