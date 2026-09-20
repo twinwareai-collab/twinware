@@ -1,0 +1,12 @@
+---
+interface Props { text: string; class?: string; id?: string }
+const { text, class: cls = '', id = 'sticker' } = Astro.props;
+const label = ` ${text} · ${text} · `;
+---
+<div class={`sticker ${cls}`} aria-hidden="true">
+  <svg viewBox="0 0 100 100">
+    <defs><path id={`${id}-path`} d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" fill="none" /></defs>
+    <text textLength="232" lengthAdjust="spacing"><textPath href={`#${id}-path`} startOffset="0">{label}</textPath></text>
+  </svg>
+  <span class="sticker-core"><i></i></span>
+</div>

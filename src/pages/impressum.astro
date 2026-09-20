@@ -1,61 +1,22 @@
 ---
-import Base from "../layouts/Base.astro";
-import { site } from "../data/site";
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/ui/Header.astro';
+import Footer from '@/components/ui/Footer.astro';
 ---
-
-<Base
-  title={`Impressum – ${site.name}`}
-  description={`Impressum und Anbieterkennzeichnung von ${site.legalName}.`}
->
-  <article class="section doc">
-    <div class="shell doc__inner">
-      <h1 class="headline">Impressum</h1>
-
-      <div class="doc__body">
-        <p class="todo">
-          TODO: Vor dem Livegang von der Steuerberatung oder einem Anwalt prüfen
-          lassen. Die Struktur folgt § 5 DDG und § 18 MStV.
-        </p>
-
-        <h2>Anbieter</h2>
-        <p>
-          {site.legalName}<br />
-          {site.street}<br />
-          {site.postalCode} {site.city}<br />
-          Deutschland
-        </p>
-
-        <h2>Vertretungsberechtigte Gesellschafter</h2>
-        <p>[GRÜNDER 1], [GRÜNDER 2]</p>
-
-        <h2>Kontakt</h2>
-        <p>
-          Telefon: {site.phone}<br />
-          E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
-        </p>
-
-        <h2>Umsatzsteuer-Identifikationsnummer</h2>
-        <p>TODO: USt-IdNr. nach § 27 a UStG oder Hinweis auf Kleinunternehmerregelung.</p>
-
-        <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
-        <p>[GRÜNDER 1], Anschrift wie oben</p>
-
-        <h2>Streitbeilegung</h2>
-        <p>
-          Wir sind weder bereit noch verpflichtet, an Streitbeilegungsverfahren
-          vor einer Verbraucherschlichtungsstelle teilzunehmen.
-        </p>
-
-        <h2>Haftung für Links</h2>
-        <p>
-          Unser Angebot enthält Links zu externen Websites Dritter, auf deren
-          Inhalte wir keinen Einfluss haben. Für diese fremden Inhalte ist
-          jeweils der Anbieter der Seite verantwortlich. Bei Bekanntwerden von
-          Rechtsverletzungen entfernen wir solche Links umgehend.
-        </p>
-      </div>
-
-      <a class="textlink" href="/">Zurück zur Startseite</a>
-    </div>
-  </article>
-</Base>
+<BaseLayout title="Impressum | Twinware" description="Impressum von Twinware.">
+  <Header />
+  <main id="main" class="legal">
+    <div class="container"><article>
+      <span class="eyebrow">Rechtliches</span><h1>Impressum</h1>
+      <div class="todo-box"><strong>Vor Veröffentlichung ergänzen:</strong> Die folgenden Angaben sind bewusst als Platzhalter markiert und müssen mit den echten Unternehmensdaten ersetzt sowie rechtlich geprüft werden.</div>
+      <h2>Angaben gemäß § 5 DDG</h2>
+      <p>[VOLLSTÄNDIGE FIRMENBEZEICHNUNG / RECHTSFORM]<br />[VERTRETUNGSBERECHTIGTE PERSON(EN)]<br />[LADUNGSFÄHIGE ANSCHRIFT]<br />Deutschland</p>
+      <h2>Kontakt</h2><p>E-Mail: [E-MAIL EINTRAGEN]<br />Telefon: [OPTIONAL: TELEFONNUMMER EINTRAGEN]</p>
+      <h2>Registerangaben</h2><p>[FALLS ZUTREFFEND: REGISTERGERICHT, REGISTERNUMMER]</p>
+      <h2>Umsatzsteuer</h2><p>[FALLS VORHANDEN: UMSATZSTEUER-IDENTIFIKATIONSNUMMER]</p>
+      <h2>Redaktionell verantwortlich</h2><p>[FALLS ERFORDERLICH: NAME UND ANSCHRIFT]</p>
+      <p><strong>Hinweis:</strong> Diese Vorlage ersetzt keine individuelle rechtliche Prüfung.</p>
+    </article></div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,21 +1,34 @@
 ---
-import Base from "../layouts/Base.astro";
-import Hero from "../components/Hero.astro";
-import Sparten from "../components/Sparten.astro";
-import Leistungen from "../components/Leistungen.astro";
-import ResponsiveShowcase from "../components/ResponsiveShowcase.astro";
-import Ablauf from "../components/Ablauf.astro";
-import UeberUns from "../components/UeberUns.astro";
-import Kontakt from "../components/Kontakt.astro";
-import { site } from "../data/site";
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/ui/Header.astro';
+import Hero from '@/components/hero/Hero.astro';
+import Manifest from '@/components/sections/Manifest.astro';
+import Showcase from '@/components/sections/Showcase.astro';
+import Services from '@/components/sections/Services.astro';
+import Audience from '@/components/sections/Audience.astro';
+import Reel from '@/components/sections/Reel.astro';
+import Estimator from '@/components/sections/Estimator.astro';
+import Process from '@/components/sections/Process.astro';
+import Principles from '@/components/sections/Principles.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import Contact from '@/components/sections/Contact.astro';
+import Footer from '@/components/ui/Footer.astro';
 ---
-
-<Base title={`${site.name} – ${site.tagline}`}>
-  <Hero />
-  <Sparten />
-  <Leistungen />
-  <ResponsiveShowcase />
-  <Ablauf />
-  <UeberUns />
-  <Kontakt />
-</Base>
+<BaseLayout title="TWINWARE | Websites, Apps & Software für kleine und mittelständische Unternehmen">
+  <Header />
+  <main id="main">
+    <Hero />
+    <Manifest />
+    <Showcase />
+    <Services />
+    <Audience />
+    <Reel />
+    <Estimator />
+    <Process />
+    <Principles />
+    <FAQ />
+    <Contact />
+  </main>
+  <Footer />
+  <script>import '../scripts/main.ts';</script>
+</BaseLayout>

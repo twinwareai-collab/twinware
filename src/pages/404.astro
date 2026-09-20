@@ -1,16 +1,6 @@
 ---
-import Base from "../layouts/Base.astro";
+import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
-
-<Base title="Seite nicht gefunden – Twinware" description="Diese Seite gibt es nicht.">
-  <section class="section doc">
-    <div class="shell doc__inner">
-      <h1 class="headline">Diese Seite gibt es nicht.</h1>
-      <p class="lede prose-note doc__lede">
-        Vielleicht wurde sie umbenannt. Auf der Startseite finden Sie alles,
-        was es gibt.
-      </p>
-      <a class="textlink" href="/">Zur Startseite</a>
-    </div>
-  </section>
-</Base>
+<BaseLayout title="Seite nicht gefunden | Twinware" noindex={true}>
+  <main id="main" class="legal"><div class="container"><article><span class="eyebrow">404</span><h1>Diese Seite gibt es hier nicht.</h1><p>Zurück zur <a href="/" style="text-decoration:underline">Startseite</a>.</p></article></div></main>
+</BaseLayout>

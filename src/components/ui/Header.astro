@@ -1,0 +1,20 @@
+---
+import { siteConfig } from '@/config/site';
+---
+<header class="site-header" data-header>
+  <div class="header-shell">
+    <a class="brand" href="#top" aria-label="TWINWARE Startseite">
+      <span class="brand-symbol" aria-hidden="true"><i></i><i></i></span>
+      <span>{siteConfig.brand}</span>
+    </a>
+
+    <nav class="nav" id="main-nav" aria-label="Hauptnavigation" data-nav>
+      {siteConfig.nav.map((item) => <a class="ln" href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <a class="header-cta" href="#kontakt"><span>Erstgespräch</span><b class="arrow arrow--sm" aria-hidden="true"></b></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="main-nav" data-menu>
+      <span></span><span></span><span class="sr-only">Menü öffnen</span>
+    </button>
+  </div>
+</header>

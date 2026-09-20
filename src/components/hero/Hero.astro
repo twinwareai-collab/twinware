@@ -1,0 +1,41 @@
+---
+import Sticker from '@/components/ui/Sticker.astro';
+---
+<section class="hero" id="top" aria-labelledby="hero-title" data-hero>
+  <div class="hero-sticky">
+    <canvas class="hero-webgl" data-webgl aria-hidden="true"></canvas>
+    <div class="hero-noise" aria-hidden="true"></div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+
+    <Sticker text="Erstgespräch kostenlos" id="hero-seal" class="hero-sticker" />
+
+    <div class="hero-ghost-panel hero-ghost-panel--one" data-hero-plane aria-hidden="true"></div>
+    <div class="hero-ghost-panel hero-ghost-panel--two" data-hero-plane aria-hidden="true">
+      <div class="panel-tag">Twinware</div>
+      <div class="panel-lines"><i></i><i></i><i></i><i></i></div>
+      <p>ERST<br/>DENKEN<br/><strong>DANN BAUEN</strong></p>
+    </div>
+
+    <div class="hero-grid container">
+      <div class="hero-copy" data-hero-copy>
+        <div class="eyebrow"><span>Software &amp; Websites · deutschlandweit</span></div>
+        <h1 id="hero-title">Ihr Betrieb kann mehr, als man online von Ihnen sieht.</h1>
+        <p class="hero-lede">Wir bauen Websites, Apps und Software für kleine und mittelständische Unternehmen. Sie erklären uns Ihr Geschäft, wir kümmern uns um die Technik. Ohne Fachchinesisch.</p>
+        <div class="hero-actions">
+          <a class="btn btn-orange" href="#kontakt">Kostenloses Erstgespräch <span class="arrow arrow--sm"></span></a>
+          <a class="btn btn-outline" href="#leistungen">Was wir machen <span class="arrow arrow--sm arrow--down"></span></a>
+        </div>
+        <div class="hero-trust" aria-label="Das erwartet Sie">
+          <span>Erstgespräch kostet nichts</span>
+          <span>Ein fester Ansprechpartner</span>
+          <span>Auch nach dem Launch da</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-side" aria-hidden="true">
+      <span>DESKTOP</span><span>TABLET</span><span class="is-on">MOBILE</span><span>RESPONSIVE</span>
+    </div>
+    <div class="scroll-cue"><i></i><span>Weiter nach unten</span></div>
+  </div>
+</section>

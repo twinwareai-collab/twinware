@@ -1,85 +1,61 @@
-# Twinware – Website
+# TWINWARE – Cinematic Agency Website
 
-Astro-Projekt für die Unternehmenswebsite von Twinware.
-Statischer Build, gedacht für Cloudflare Pages.
+Premium-Agenturwebsite für TWINWARE in einem hellen, ruhigen Off-White/Orange-Design mit Three.js Hero (Bildschirm, Tablet und Handy als Responsive-Anspielung), GSAP/ScrollTrigger, Lenis, scrollgesteuerter Story, rotierendem Showcase und interaktivem Ideen-Check.
 
-## Starten
+Leistungsfokus: Websites, Webapps, Apps und maßgeschneiderte Softwarelösungen.
+
+## Schnell ansehen
+
+Ohne Installation:
+
+`preview/index.html`
+
+Die Preview ist bewusst eigenständig und verwendet keine externen CDNs; sie bildet den Hero mit einer Canvas-2D-Variante ab. Der produktive Astro-Quellcode enthält den echten Three.js-Hero.
+
+> Die Preview ist eine Kopie und muss bei Änderungen an `src/` von Hand mitgezogen werden (`preview/styles.css` entspricht `src/styles/global.css` ohne die Tailwind-Zeile).
+
+## Lokal entwickeln
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321
-npm run build    # Ausgabe nach dist/
-npm run preview  # Build lokal anschauen
+cp .env.example .env
+npm run dev
 ```
 
-Node 22 oder neuer.
+Production:
 
-## Aufbau
-
-```
-src/
-  data/site.ts          Alle Texte, Leistungen, Referenzen, Ablauf
-  styles/global.css     Design-Tokens (@theme) und Bausteine
-  layouts/Base.astro    Kopf, Meta-Tags, JSON-LD, View Transitions
-  components/           Eine Datei je Abschnitt der Startseite
-  pages/                index, impressum, datenschutz, 404
+```bash
+npm run build
+node ./dist/server/entry.mjs
 ```
 
-Inhalte werden in `src/data/site.ts` gepflegt. Das Markup muss dafür nicht
-angefasst werden.
+## Resend
 
-## Design
+`.env`:
 
-- Anzeigeschrift: Anton (Wortmarke, Ziffern)
-- Überschriften: Instrument Serif
-- Fließtext: Inter Tight Variable
-- Farben: Papier `#FAF9F7`, Tinte `#111111`, Akzent `#FF4B2E`, Nacht `#0E0E0E`
-
-Alle Schriften liegen über Fontsource im eigenen Build – es geht keine
-Anfrage an Google.
-
-## Vor dem Livegang
-
-Im Projekt sind die offenen Punkte mit `TODO` markiert:
-
-- `src/data/site.ts`: Firmierung, Anschrift, Telefon, E-Mail, Gründernamen
-- `src/pages/impressum.astro`: USt-IdNr., verantwortliche Person
-- `src/pages/datenschutz.astro`: Hoster und Mailversender benennen, AVV
-- Referenzbilder und Portraits ergänzen (siehe unten)
-- `astro.config.mjs`: `site` auf die echte Domain setzen
-
-## Bilder ergänzen
-
-Bilder nach `src/assets/` legen und in `Referenzen.astro` bzw. `UeberUns.astro`
-die Platzhalterflächen ersetzen:
-
-```astro
----
-import { Image } from "astro:assets";
-import bild from "../assets/neumann.jpg";
----
-<Image src={bild} alt="…" widths={[400, 800]} sizes="(min-width: 56rem) 33vw, 100vw" />
+```env
+RESEND_API_KEY=re_...
+CONTACT_TO_EMAIL=kontakt@deinedomain.de
+CONTACT_FROM_EMAIL=Twinware Website <website@deine-verifizierte-domain.de>
+PUBLIC_SITE_URL=https://deinedomain.de
 ```
 
-Dafür einmalig `npm install sharp`.
+## Wichtige Dateien
 
-## Kontaktformular
+- `src/components/hero/Hero.astro` – cinematic Hero
+- `src/scripts/three-scene.ts` – Three.js Szene (Bildschirm / Tablet / Handy)
+- `src/components/sections/Showcase.astro` – gepinnte Story
+- `src/components/sections/Reel.astro` – große Tilt/Rotate Scroll-Sequenz
+- `src/components/sections/Estimator.astro` – Ideen-Check
+- `src/pages/api/contact.ts` – Resend API
+- `src/styles/global.css` – komplettes Designsystem / Responsive / Motion Fallbacks
+- `ASSETS.md` – generierte Bildassets
+- `LEGAL_TODO.md` – vor Veröffentlichung zu ergänzende Daten
 
-Das Formular schickt einen POST an `/api/kontakt`. Für Cloudflare Pages eine
-Function anlegen:
+## Preise
 
-```
-functions/api/kontakt.ts
-```
+Es wurden keine TWINWARE-Preise erfunden. Echte Budgetrahmen können später zentral in `src/config/site.ts` hinterlegt werden.
 
-Darin den Body entgegennehmen und über Resend verschicken. Der Endpunkt ist in
-`src/components/Kontakt.astro` im Skript-Block kommentiert. Solange es die
-Function nicht gibt, zeigt das Formular einen Fehlerhinweis mit der
-E-Mail-Adresse an.
+## Vor Veröffentlichung
 
-## Deploy auf Cloudflare Pages
-
-1. Repository mit Pages verbinden
-2. Build-Befehl `npm run build`, Ausgabeverzeichnis `dist`
-3. Umgebungsvariable `RESEND_API_KEY` setzen, sobald das Formular live geht
-4. Domain zuweisen, Nameserver auf Cloudflare zeigen lassen
+`LEGAL_TODO.md` abarbeiten und Rechtstexte individuell prüfen lassen.

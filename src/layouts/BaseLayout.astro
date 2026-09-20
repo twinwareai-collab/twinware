@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '@/config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+const {
+  title = 'Twinware | Digitale Produkte für echte Abläufe',
+  description = siteConfig.description,
+  noindex = false,
+} = Astro.props;
+const base = import.meta.env.PUBLIC_SITE_URL || Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, base).toString();
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', name: siteConfig.brand, url: base, description: siteConfig.description },
+    { '@type': 'WebSite', name: siteConfig.brand, url: base, inLanguage: 'de-DE' },
+    { '@type': 'Service', name: 'Digitale Produktentwicklung', provider: { '@type': 'Organization', name: siteConfig.brand }, areaServed: 'DE', description: siteConfig.description }
+  ]
+};
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ece5d8" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/images/twinware/social/og.jpg', base).toString()} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/images/twinware/social/og.jpg', base).toString()} />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Zum Hauptinhalt</a>
+    <slot />
+  </body>
+</html>
