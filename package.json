@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
-    "preview": "astro preview",
+    "preview": "npm run build && wrangler pages dev",
+    "deploy": "npm run build && wrangler pages deploy",
     "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/node": "^9.4.2",
     "@tailwindcss/vite": "^4.1.13",
-    "astro": "^5.14.1",
+    "astro": "^7.3.3",
     "gsap": "^3.13.0",
     "lenis": "^1.3.11",
     "resend": "^6.0.2",
@@ -22,7 +22,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.5",
+    "@cloudflare/workers-types": "^5.20260920.1",
     "@types/three": "^0.180.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "wrangler": "^4.135.0"
   }
 }

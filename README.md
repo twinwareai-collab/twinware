@@ -22,23 +22,45 @@ cp .env.example .env
 npm run dev
 ```
 
-Production:
+Production-Build lokal testen (inkl. Kontakt-Function):
 
 ```bash
-npm run build
-node ./dist/server/entry.mjs
+cp .dev.vars.example .dev.vars   # Secrets fuer die lokale Function
+npm run preview                  # Build + wrangler pages dev
 ```
 
 ## Resend
 
-`.env`:
+Lokal in `.dev.vars` (fuer die Pages Function), in Produktion als Secrets im
+Cloudflare-Dashboard:
 
 ```env
 RESEND_API_KEY=re_...
 CONTACT_TO_EMAIL=kontakt@deinedomain.de
 CONTACT_FROM_EMAIL=Twinware Website <website@deine-verifizierte-domain.de>
-PUBLIC_SITE_URL=https://deinedomain.de
 ```
+
+## Deployment (Cloudflare Pages)
+
+Die Seite wird statisch gebaut; nur `/api/contact` laeuft als Pages Function.
+
+Projekt-Einstellungen im Cloudflare-Dashboard:
+
+| Einstellung | Wert |
+| --- | --- |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Compatibility flags | `nodejs_compat` |
+
+Environment variables (Settings > Environment variables):
+
+- `PUBLIC_SITE_URL` – **Build**-Variable, setzt Canonical-URLs, Sitemap und robots.txt
+- `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` – als **Secret**, zur Laufzeit von der Function gelesen
+
+Ohne die drei Resend-Werte antwortet das Formular bewusst mit HTTP 503
+("Kontaktversand ist noch nicht konfiguriert.") statt zu scheitern.
+
+Alternativ direkt aus der Konsole: `npm run deploy`.
 
 ## Wichtige Dateien
 
@@ -47,7 +69,8 @@ PUBLIC_SITE_URL=https://deinedomain.de
 - `src/components/sections/Showcase.astro` – gepinnte Story
 - `src/components/sections/Reel.astro` – große Tilt/Rotate Scroll-Sequenz
 - `src/components/sections/Estimator.astro` – Ideen-Check
-- `src/pages/api/contact.ts` – Resend API
+- `functions/api/contact.ts` – Kontaktformular als Cloudflare Pages Function (Resend)
+- `public/_headers` – Security-Header (CSP etc.) und Cache-Control
 - `src/styles/global.css` – komplettes Designsystem / Responsive / Motion Fallbacks
 - `ASSETS.md` – generierte Bildassets
 - `LEGAL_TODO.md` – vor Veröffentlichung zu ergänzende Daten

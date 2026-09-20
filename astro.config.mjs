@@ -1,15 +1,16 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 
+// Canonical-URL zur Build-Zeit. Auf Cloudflare Pages als Umgebungsvariable
+// (Settings > Environment variables) setzen, sonst greift der Fallback.
+const site = process.env.PUBLIC_SITE_URL || 'https://twinware.pages.dev';
+
 export default defineConfig({
-  output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  // Alle Seiten sind statisch; nur /api/contact laeuft als Pages Function.
+  output: 'static',
+  site,
   vite: {
     plugins: [tailwindcss()],
   },
   compressHTML: true,
-  security: {
-    checkOrigin: true,
-  },
 });

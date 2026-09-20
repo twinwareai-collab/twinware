@@ -220,7 +220,7 @@ contactForm?.addEventListener('submit', async (e) => {
   if (formStatus) formStatus.textContent = 'Anfrage wird gesendet …';
   try {
     const response = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(Object.fromEntries(new FormData(contactForm))) });
-    const data = await response.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({})) as { message?: string };
     if (!response.ok) throw new Error(data?.message || 'Versand fehlgeschlagen');
     contactForm.reset();
     if (formStatus) formStatus.textContent = 'Danke. Ihre Anfrage wurde erfolgreich versendet.';

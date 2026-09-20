@@ -1,0 +1,5 @@
+# Lokales Testen der Pages Function mit `npm run preview`.
+# Kopie als `.dev.vars` anlegen (wird nicht committet).
+RESEND_API_KEY=re_xxxxxxxxx
+CONTACT_TO_EMAIL=hello@example.com
+CONTACT_FROM_EMAIL=Twinware Website <website@your-verified-domain.example>
