@@ -1,6 +1,19 @@
 # TWINWARE – Cinematic Agency Website
 
-Premium-Agenturwebsite für TWINWARE in einem hellen, ruhigen Off-White/Orange-Design mit Three.js Hero (Bildschirm, Tablet und Handy als Responsive-Anspielung), GSAP/ScrollTrigger, Lenis, scrollgesteuerter Story, rotierendem Showcase und interaktivem Ideen-Check.
+Agenturwebsite für TWINWARE: heller Papiergrund, Orange als einziger Akzent,
+Archivo über zwei Breitenachsen, 2px-Linien statt Kartenschatten. Der Hero ist
+eine Three.js-Szene (Bildschirm, Tablet, Handy), dazu GSAP/ScrollTrigger, Lenis
+und ein interaktiver Ideen-Check.
+
+Ab 980px abwärts sind Hero, Story und Reel bewusst **keine** Scroll-Choreografien
+mehr, sondern normale Sektionen – auf dem Handy lädt die WebGL-Szene ohnehin
+nicht, und gestapelte Inhalte lesen sich dort besser als eine Sticky-Strecke.
+Die Navigation liegt auf Mobil in einem eigenen Panel (`.mobile-menu`) statt in
+einem umgebauten Desktop-Menü.
+
+Mit Maus ersetzt ein Ring den Systemzeiger (`.cursor-ring`) und wächst über
+allem Anklickbaren; auf Touch-Geräten und bei `prefers-reduced-motion` bleibt
+er aus. Zeiger und Hero-Parallaxe teilen sich einen Frame-Loop.
 
 Leistungsfokus: Websites, Webapps, Apps und maßgeschneiderte Softwarelösungen.
 
@@ -71,6 +84,10 @@ Alternativ direkt aus der Konsole: `npm run deploy`.
 - `src/components/sections/Estimator.astro` – Ideen-Check
 - `functions/api/contact.ts` – Kontaktformular als Cloudflare Pages Function (Resend)
 - `public/_headers` – Security-Header (CSP etc.) und Cache-Control
+- `src/components/ui/Header.astro` – Kopfzeile inkl. eigenem Panel für Mobil
+- `src/components/sections/Signature.astro` – Marken-Moment vor dem Kontakt
+- `src/scripts/vortex.ts` – kreisende Typografie auf Canvas 2D, wird erst
+  nachgeladen, wenn die Sektion in Sichtweite kommt
 - `src/styles/global.css` – komplettes Designsystem / Responsive / Motion Fallbacks
 - `ASSETS.md` – generierte Bildassets
 - `LEGAL_TODO.md` – vor Veröffentlichung zu ergänzende Daten

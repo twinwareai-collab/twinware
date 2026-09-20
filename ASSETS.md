@@ -1,61 +1,58 @@
-# ASSETS – TWINWARE v2
+# ASSETS – TWINWARE
 
-Die visuellen Rasterassets dieser Version wurden für das TWINWARE-Konzept in dieser Arbeitssitzung generiert und anschließend gezielt zugeschnitten/optimiert. Es werden keine externen Stockbilder oder fremden Markenassets benötigt.
+Die Seite arbeitet mit zwei Aufnahmen; alles Weitere entsteht aus
+Typografie, Linien und Farbe des Designsystems.
 
-## Hero / Three.js
+## Schrift
 
-Die Hero-Szene arbeitet ohne Rasterbild: Bildschirm, Tablet und Handy werden in Three.js aufgebaut, die Bildschirminhalte werden zur Laufzeit als Canvas-Textur gezeichnet (dasselbe Layout in drei Formaten – Responsive-Anspielung).
+Archivo (Variable, Achsen `wdth` 62–125 und `wght` 100–900) wird über
+`@fontsource-variable/archivo` als npm-Abhängigkeit **selbst ausgeliefert**.
 
-### `public/images/twinware/generated/hero-texture.webp`
-- Aktuell nicht mehr im Frontend eingebunden (vormals Hero-Panel-Textur)
-- Bleibt als austauschbares Asset unter stabilem Pfad liegen
+Kein Aufruf an Google-Server: Die Content-Security-Policy in `public/_headers`
+erlaubt nur eigene Quellen (`font-src 'self'`), und ohne externe Anfrage
+entfällt die datenschutzrechtliche Diskussion um Google Fonts.
 
-## Leistungen
+Die Achse `wdth` trägt das Designsystem: Überschriften laufen auf 114–118,
+Fließtext auf 100. Wird die Schrift nicht geladen, greift eine System-Sans –
+dann fehlt die Breitenachse und das Schriftbild verliert seinen Charakter.
 
-### `studio.webp`
-- Zweck: Website-Servicekarte
-- Motiv: hochwertige dunkle Architektur / Arbeitsumgebung, warme Lichtstimmung
-- Format: WebP
+## Hero
 
-### `interface.webp`
-- Zweck: Webapp-Servicekarte und Story-Produktphase
-- Motiv: dunkle UI-/Panel-Komposition mit orangefarbenem Fokuspunkt
-- Format: WebP
+Die Hero-Szene arbeitet ohne Rasterbild: Bildschirm, Tablet und Handy werden
+in Three.js aufgebaut, die Bildschirminhalte zur Laufzeit als Canvas-Textur
+gezeichnet. Unterhalb von 980px wird die Szene nicht geladen; der Hero ist
+dort eine normale Sektion.
 
-### `service-work.webp`
-- Zweck: großer rotierender Showcase-Canvas
-- Motiv: generierte TWINWARE-Leistungs-/Produktinszenierung
-- Format: WebP
-- Besonderheit: wird in einer großen perspektivischen Scroll-Transition verwendet
+## Bildmaterial
 
-## Agentur / CTA
+Zwei Aufnahmen, bewusst sparsam eingesetzt. Beide liegen als WebP in zwei
+Breiten vor (800 / 1600) und werden über `srcset` ausgeliefert.
 
-### `portal.webp`
-- Zweck: große Bildhälfte im Abschnitt „Warum TWINWARE“
-- Motiv: dunkles Portal/Monolith-Motiv mit warmem orangefarbenem Licht
-- Format: WebP
+### `szenen/arbeitsplatz-daemmerung.webp`
+- Abendlicher Arbeitsplatz, Laptop mit geöffnetem Editor, Stadt im Hintergrund
+- Steht in der Reel-Sektion neben „Erst muss die Idee funktionieren."
+- Trägt links einen Verlauf in den Kartengrund, damit die Textkante nicht
+  hart abbricht; auf Mobil läuft der Verlauf nach unten statt nach links
 
-### `cta-backdrop.webp`
-- Zweck: atmosphärischer Hintergrund im Kontakt-CTA
-- Motiv: dunkle Berg-/Landschaftsinszenierung mit orangefarbenem Licht
-- Format: WebP
+### `szenen/lichtflaechen.webp`
+- Helle Flächen- und Netzkomposition
+- Liegt im Ideen-Check als ruhiger Grund auf der rechten Hälfte, per Maske
+  ausgeblendet und auf halbe Deckkraft gesetzt – rein atmosphärisch
 
-## Konzeptbilder
+## Flächen statt Fotos
 
-### `generated-concept-1.webp`, `generated-concept-2.webp`
-- Zweck: interne visuelle Referenz / Konzeptstand
-- Nicht zwingend im sichtbaren Frontend eingesetzt
+Alles andere entsteht aus Typografie, Linien und Farbe:
+
+| Stelle | Umsetzung |
+| --- | --- |
+| `Principles` | Markenzeichen, Claim und feines Raster auf dunklem Grund |
+| `Showcase` | Vier CSS-Skizzen als Andeutung von Phasen |
+| `Contact` | Offene Feldzeilen auf dunklem Grund, kein Formularkasten |
 
 ## Social
 
 ### `public/images/twinware/social/og.jpg`
-- 1200 × 630 px
-- OpenGraph / Social Preview
-- basiert auf dem generierten Hero-Motiv und dem TWINWARE-Farbsystem
-
-## Konsistenz
-
-- Primärfarben: Off-White/Papier, Ink (#14161a) als Anker, TWINWARE Orange (#e8532a)
-- Die Website ist hell gehalten; die dunklen Bildmotive werden in hellen Flächen als Kontrastpunkte eingesetzt (Servicekarten, Agentur-Split, abgeschwächt im Kontakt-Backdrop)
-- Bildsprache: ruhig, technisch, räumlich, keine Neon-/Cyberpunk-Ästhetik
-- Austauschbare Assets besitzen stabile Pfade; Animationslogik hängt nicht von Dateiabmessungen einzelner Bilder ab.
+- 1200×630, das Vorschaubild beim Teilen
+- Gesetzt aus Markenzeichen, Headline und Leistungszeile – dieselbe Schrift
+  und dieselben Farben wie die Seite
+- Erzeugt durch Rendern einer HTML-Vorlage; bei Textänderungen neu rendern

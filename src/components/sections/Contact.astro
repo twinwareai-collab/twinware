@@ -1,21 +1,52 @@
 <section class="contact" id="kontakt" aria-labelledby="contact-title">
-  <div class="contact-backdrop" aria-hidden="true"><img src="/images/twinware/generated/cta-backdrop.webp" alt="" loading="lazy" /></div>
   <div class="container contact-inner">
     <div class="contact-copy" data-reveal>
       <div class="eyebrow"><span>Kostenloses Erstgespräch</span></div>
       <h2 id="contact-title">Reden wir kurz über Ihr Vorhaben.</h2>
       <p>Schreiben Sie in zwei, drei Sätzen, worum es geht. Wir melden uns und klären mit Ihnen, was sinnvoll ist und was es ungefähr kostet. Danach entscheiden Sie in Ruhe.</p>
-      <ul><li>Antwort in der Regel am nächsten Werktag</li><li>Kostenlos und unverbindlich</li><li>Kein Verkaufsgespräch</li></ul>
+      <ul>
+        <li>Antwort in der Regel am nächsten Werktag</li>
+        <li>Kostenlos und unverbindlich</li>
+        <li>Kein Verkaufsgespräch</li>
+      </ul>
     </div>
+
     <form class="contact-form" data-contact-form novalidate>
-      <div class="form-row"><label for="name">Name *</label><input id="name" name="name" autocomplete="name" required maxlength="100" placeholder="Ihr Name" /></div>
-      <div class="form-row"><label for="email">E-Mail *</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="name@unternehmen.de" /></div>
-      <div class="form-row"><label for="company">Unternehmen</label><input id="company" name="company" autocomplete="organization" maxlength="120" placeholder="Optional" /></div>
-      <div class="form-row"><label for="message">Projektidee *</label><textarea id="message" name="message" required maxlength="5000" placeholder="Zum Beispiel: Wir haben noch keine Website und wollen endlich online gefunden werden."></textarea></div>
-      <div class="honeypot" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off" /></div>
-      <label class="consent"><input type="checkbox" name="consent" required /><span>Ich habe die <a href="/datenschutz">Datenschutzhinweise</a> gelesen. *</span></label>
-      <button class="btn btn-orange" type="submit">Erstgespräch anfragen <span class="arrow arrow--sm"></span></button>
-      <p class="form-status" data-form-status aria-live="polite"></p>
+      <div class="field-grid">
+        <p class="field">
+          <label for="name">Name <span aria-hidden="true">*</span></label>
+          <input id="name" name="name" autocomplete="name" required maxlength="100" placeholder="Ihr Name" />
+        </p>
+        <p class="field">
+          <label for="email">E-Mail <span aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="name@unternehmen.de" />
+        </p>
+      </div>
+
+      <p class="field">
+        <label for="company">Unternehmen <em>optional</em></label>
+        <input id="company" name="company" autocomplete="organization" maxlength="120" placeholder="Firmenname" />
+      </p>
+
+      <p class="field">
+        <label for="message">Worum geht es? <span aria-hidden="true">*</span></label>
+        <textarea id="message" name="message" required maxlength="5000" placeholder="Zum Beispiel: Wir haben noch keine Website und wollen endlich online gefunden werden."></textarea>
+      </p>
+
+      <div class="honeypot" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" name="consent" required />
+        <span>Ich habe die <a href="/datenschutz">Datenschutzhinweise</a> gelesen. <span aria-hidden="true">*</span></span>
+      </label>
+
+      <div class="form-send">
+        <button class="btn btn-orange" type="submit">Erstgespräch anfragen <span class="arrow arrow--sm"></span></button>
+        <p class="form-status" data-form-status aria-live="polite"></p>
+      </div>
     </form>
   </div>
 </section>
